@@ -29,7 +29,7 @@ const list = document.querySelector<HTMLUListElement>('#list')
 const input_item = document.querySelector<HTMLInputElement>('#new_task_item')
 const input_description = document.querySelector<HTMLInputElement>('#new_task_description')
 
-// loadTask()
+loadTask()
 // console.log(list)
 
 

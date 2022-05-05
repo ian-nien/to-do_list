@@ -17,7 +17,7 @@ const TodoSchema: Schema = new Schema(
         order: { type: Number, required: true }
     },
     {
-        timestamps: true,
+        timestamps: false,
         versionKey: false
     }
 );
