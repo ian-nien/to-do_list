@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <script src="dist/index.js" type="module"></script>
+    <title>Document</title>
+    <style>
+        #list{
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</head>   
+<body>
+    <h2>To Do List</h2>
+    <input type="text" id="filter_input" placeholder="Search for items..." title="Type_item">
+
+    <ul id="list"></ul>
+    <ul id="new-task-form">
+        <li>item: <input type="text" id="new_task_item"></li>
+        <li>description: <input type="text" id="new_task_description"></li>
+    </ul>
+    <button type="submit" id="add_button">Add</button>
+    <button type="submit" id="delete_button">Delete</button>
+    <button type="submit" id="update_button">Update</button>
+    <!-- <button type="submit" id="priority_button">To First</button> -->
+
+</body>   
+</html>
