@@ -6,12 +6,12 @@ A todo list for adding, deleting, updating, prioritzing items
 
 `git clone `
 ## Run Server
-`cd server`
-`npm install`
-`npm run build`
-`npm start`
+1.`cd server`
+2.`npm install`
+3.`npm run build`
+4.`npm start`
 
 ## Run Client
-`cd client`
-`npm install`
-`npm start`
+1.`cd client`
+2.`npm install`
+3.`npm start`
