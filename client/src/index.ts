@@ -1,19 +1,20 @@
 import {v4 as uuidV4} from 'uuid'
 
-// // import {getData, getAllData, postData, deleteData, updateData,getData2} from "./function"
-import {getData, getAllData, postData, deleteData, updateData, postData2} from "./fuction"
-
+// // // import {getData, getAllData, postData, deleteData, updateData,getData2} from "./function"
+import {getData, getAllData, postData, deleteData, updateData} from "./fuction"
 
 
 // console.log("hello world")
+
 
 type Task = {
   item: string
   description: string
   check: boolean
-  createdAt: Date
+  order: number
+  // createdAt: Date
   _id: string
-  updateAt: Date
+  // updateAt: Date
 }
 
 interface todoList_interface{
@@ -39,9 +40,11 @@ add_button?.addEventListener('click',e=>{
   // console.log("hi")
   e.preventDefault()
   if(input_item?.value == '' || input_item?.value == null) return
-  
 
-  postData('http://localhost:9090/todos/create', { "item" : input_item?.value, "description" : input_description?.value, "check" : false })
+  var items = document.querySelectorAll("#list li")
+  // console.log(items.length)
+  
+  postData('http://localhost:9090/todos/create', { "item" : input_item?.value, "description" : input_description?.value, "check" : false,"order":(items.length+1) })
   .then(data => {
     console.log(data); 
     const oneOflist : todoItem_interface = <todoItem_interface>data
@@ -57,12 +60,14 @@ add_button?.addEventListener('click',e=>{
   // console.log(li)
 })
 
+
 const delete_button = document.getElementById('delete_button') 
 delete_button?.addEventListener('click',e=>{
   e.preventDefault()
+  var items = document.querySelectorAll("#list li")
+  var delete_list = [ ]
   // console.log(list?.getElementsByTagName('li')[0].getElementsByTagName('label')[0].getElementsByTagName('input')[0].checked)
   if (list!=null){
-    var items = document.querySelectorAll("#list li")
     // console.log(list)
     // console.log(items)
     
@@ -72,13 +77,42 @@ delete_button?.addEventListener('click',e=>{
         items[i].parentNode?.removeChild(items[i]) 
         // console.log(items[i]) 
         let url = 'http://localhost:9090/todos/delete/' + items[i].id
-        console.log(url)
+        // console.log(url)
         deleteData(url).then(data => {
+          console.log(data)
+        })
+        delete_list.push(i)
+      }
+    }
+  }
+  // console.log(items[0].getAttribute("order"))
+  // console.log(delete_list)
+
+
+  // update order
+  for(let i = 0;i<items.length;i++){
+    var order_reduce = 0
+    // if the item is the remaining item, then run
+    if(!delete_list.includes(i)){
+      // how much order reduce
+      for (let ii = 0; ii<i ;ii++){
+        if(delete_list.includes(ii)){
+          order_reduce = order_reduce + 1
+        }
+      }
+
+      // if order need to reduce
+      if (order_reduce!=0){
+        // console.log(order_reduce)
+        let url = 'http://localhost:9090/todos/update/' + items[i].id
+        // console.log(url)
+        updateData(url,{"order": (Number(items[i].getAttribute("order"))-order_reduce)}).then(data => {
           console.log(data)
         })
       }
     }
   }
+  console.log(items)
 })
 
 const update_button = document.getElementById('update_button') 
@@ -151,8 +185,20 @@ update_button?.addEventListener('click',e=>{
 
 function loadTask(){
   const alldata : todoList_interface = <todoList_interface>getAllData()
-  alldata.todos.forEach(addListItem)
+  // console.log(alldata.todos)
+  var sort_todo: Task[] = alldata.todos.sort((a,b)=>{
+    if(a.order > b.order){
+      return 1;
+    }
+    if(a.order < b.order){
+      return -1;
+    }
+    return 0
+  })
+  // console.log(sort_todo)
+  sort_todo.forEach(addListItem)
 }
+
 function addListItem(task: Task){
   const item = document.createElement("li")
   const label = document.createElement('label')
@@ -164,7 +210,7 @@ function addListItem(task: Task){
     // console.log(task._id)
     let url: string = 'http://localhost:9090/todos/update/' + task._id 
     // console.log(url)
-    updateData(url, { "item" : task.item, "description" : task.description, "check" : checkbox.checked})
+    updateData(url, {"check" : checkbox.checked})
     .then(data => {console.log(data)});
   })
   
@@ -176,6 +222,7 @@ function addListItem(task: Task){
   item.append(label,label2,label3)
   item.setAttribute('description',task.description)
   item.setAttribute('id',task._id)
+  item.setAttribute('order',task.order.toString())
   list?.append(item)
   
 }
@@ -207,26 +254,39 @@ function filter_name(){
 
 
 
-// const priority_button = document.getElementById('priority_button') 
-// priority_button?.addEventListener('click',e=>{
-//   e.preventDefault()
-//   // console.log("hi")
-//   var items = document.querySelectorAll("#list li")
-//   // console.log(items)
-//   var check_item_sum = 0
-//   var check_item = 0 
-//   for(let i=0;i<items.length;i++){
-//     if(items[i].getElementsByTagName('label')[0].getElementsByTagName('input')[0].checked){
-//       check_item_sum = check_item_sum + 1
-//       check_item = i
-//     }
-//   }
-//   // console.log(check_item_sum)
-//   // console.log(check_item)
-//   if (check_item_sum != 1) return
+const priority_button = document.getElementById('priority_button') 
+priority_button?.addEventListener('click',e=>{
+  e.preventDefault()
+  // console.log("hi")
+  var items = document.querySelectorAll("#list li")
+  // console.log(items)
+  var check_item_sum = 0
+  var check_item = 0 
+  for(let i=0;i<items.length;i++){
+    if(items[i].getElementsByTagName('label')[0].getElementsByTagName('input')[0].checked){
+      check_item_sum = check_item_sum + 1
+      check_item = i
+    }
+  }
+  // console.log(check_item_sum)
+  // console.log(check_item)
+  if (check_item_sum != 1) return
 
-//   items[check_item].parentNode?.insertBefore(items[check_item],items[0])
+  items[check_item].parentNode?.insertBefore(items[check_item],items[0])
   
-// })
+  let url = 'http://localhost:9090/todos/update/' + items[check_item].id
+  // console.log(url)
+  updateData(url,{"order": 1}).then(data => {
+    console.log(data)
+  })
+
+  for (var i = 0; i<check_item;i++){
+    let url = 'http://localhost:9090/todos/update/' + items[i].id
+    // console.log(url)
+    updateData(url,{"order": (Number(items[i].getAttribute("order"))+1)}).then(data => {
+      console.log(data)
+    })
+  }
+})
 
 
