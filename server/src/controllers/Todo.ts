@@ -3,13 +3,14 @@ import mongoose from 'mongoose';
 import Todo from '../models/Todo';
 
 const createTodo = (req: Request, res: Response, next: NextFunction) => {
-    const { item, description, check } = req.body;
+    const { item, description, check, order } = req.body;
 
     const todo = new Todo({
         _id: new mongoose.Types.ObjectId(),
         item,
         description,
-        check
+        check,
+        order
     });
 
     return todo
