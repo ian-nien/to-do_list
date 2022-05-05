@@ -7,7 +7,7 @@ A todo list for adding, deleting, updating, prioritzing items.
 * `git clone `
 * `cd to-do_list`
 
-Please open two terminal to tun server and client simultaneously.
+Please open two terminal to run server and client simultaneously.
 
 ## Run Server
 1. `cd server`
