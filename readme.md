@@ -4,7 +4,8 @@
 A todo list for adding, deleting, updating, prioritzing items
 
 
-`git clone `
+* `git clone `
+* `cd to-do_list`
 ## Run Server
 1. `cd server`
 2. `npm install`
