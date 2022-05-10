@@ -98,7 +98,7 @@ function getAllData() {
     return body_getAllData
      
 }
-const response_getAllData = await fetch('http://localhost:9090/todos/get', {
+const response_getAllData = await fetch('http://localhost:9090/todos', {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     headers: {
       'Content-Type': 'application/json'

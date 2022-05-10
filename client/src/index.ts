@@ -44,7 +44,7 @@ add_button?.addEventListener('click',e=>{
   var items = document.querySelectorAll("#list li")
   // console.log(items.length)
   
-  postData('http://localhost:9090/todos/create', { "item" : input_item?.value, "description" : input_description?.value, "check" : false,"order":(items.length+1) })
+  postData('http://localhost:9090/todos', { "item" : input_item?.value, "description" : input_description?.value, "check" : false,"order":(items.length+1) })
   .then(data => {
     console.log(data); 
     const oneOflist : todoItem_interface = <todoItem_interface>data
@@ -76,7 +76,7 @@ delete_button?.addEventListener('click',e=>{
         // console.log(i)
         items[i].parentNode?.removeChild(items[i]) 
         // console.log(items[i]) 
-        let url = 'http://localhost:9090/todos/delete/' + items[i].id
+        let url = 'http://localhost:9090/todos/' + items[i].id
         // console.log(url)
         deleteData(url).then(data => {
           console.log(data)
@@ -106,7 +106,7 @@ delete_button?.addEventListener('click',e=>{
 
       // if order need to reduce
       if (order_reduce!=0){
-        let url = 'http://localhost:9090/todos/update/' + items[i].id
+        let url = 'http://localhost:9090/todos/' + items[i].id
         // console.log(url)
         updateData(url,{"order": (Number(items[i].getAttribute("order"))-order_reduce)}).then(data => {
           console.log(data)
@@ -147,7 +147,7 @@ update_button?.addEventListener('click',e=>{
     // console.log(items[check_item].getElementsByTagName('label')[1].innerText)
     // console.log(items[check_item].getElementsByTagName('label')[2].innerText)
 
-    let url: string = 'http://localhost:9090/todos/update/' + items[check_item].id
+    let url: string = 'http://localhost:9090/todos/' + items[check_item].id
     // console.log(url)
     updateData(url, { "description" : input_description?.value})
     .then(data => {console.log(data)});
@@ -162,7 +162,7 @@ update_button?.addEventListener('click',e=>{
     // console.log(items[check_item].getElementsByTagName('label')[1].innerText)
     // console.log(items[check_item].getElementsByTagName('label')[2].innerText)
 
-    let url: string = 'http://localhost:9090/todos/update/' + items[check_item].id
+    let url: string = 'http://localhost:9090/todos/' + items[check_item].id
     // console.log(url)
     updateData(url, { "item" : input_item.value})
     .then(data => {console.log(data)});
@@ -175,7 +175,7 @@ update_button?.addEventListener('click',e=>{
     // console.log(items[check_item].getElementsByTagName('label')[1].innerText)
     // console.log(items[check_item].getElementsByTagName('label')[2].innerText)
 
-    let url: string = 'http://localhost:9090/todos/update/' + items[check_item].id
+    let url: string = 'http://localhost:9090/todos/' + items[check_item].id
     // console.log(url)
     updateData(url, { "item" : input_item.value, "description" : input_description?.value})
     .then(data => {console.log(data)});
@@ -214,7 +214,7 @@ function addListItem(task: Task){
   checkbox.addEventListener('change',() =>{
     task.check = checkbox.checked
     // console.log(task._id)
-    let url: string = 'http://localhost:9090/todos/update/' + task._id 
+    let url: string = 'http://localhost:9090/todos/' + task._id 
     // console.log(url)
     updateData(url, {"check" : checkbox.checked})
     .then(data => {console.log(data)});
@@ -280,7 +280,7 @@ priority_button?.addEventListener('click',e=>{
 
   items[check_item].parentNode?.insertBefore(items[check_item],items[0])
   
-  let url = 'http://localhost:9090/todos/update/' + items[check_item].id
+  let url = 'http://localhost:9090/todos/' + items[check_item].id
   // console.log(url)
   updateData(url,{"order": 1}).then(data => {
     console.log(data)
@@ -288,7 +288,7 @@ priority_button?.addEventListener('click',e=>{
   items[check_item].setAttribute("order","1")
 
   for (var i = 0; i<check_item;i++){
-    let url = 'http://localhost:9090/todos/update/' + items[i].id
+    let url = 'http://localhost:9090/todos/' + items[i].id
     // console.log(url)
     updateData(url,{"order": (Number(items[i].getAttribute("order"))+1)}).then(data => {
       console.log(data)
