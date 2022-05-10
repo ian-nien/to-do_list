@@ -88,7 +88,7 @@ delete_button?.addEventListener('click',e=>{
   // console.log(items[0].getAttribute("order"))
   // console.log(delete_list)
 
-
+  console.log(delete_list)
   // update order
   for(let i = 0;i<items.length;i++){
     var order_reduce = 0
@@ -100,19 +100,25 @@ delete_button?.addEventListener('click',e=>{
           order_reduce = order_reduce + 1
         }
       }
+      // console.log(order_reduce)
+      
+      // console.log(Number(items[i].getAttribute("order"))-order_reduce)
 
       // if order need to reduce
       if (order_reduce!=0){
-        // console.log(order_reduce)
         let url = 'http://localhost:9090/todos/update/' + items[i].id
         // console.log(url)
         updateData(url,{"order": (Number(items[i].getAttribute("order"))-order_reduce)}).then(data => {
           console.log(data)
         })
+        items[i].setAttribute('order',(Number(items[i].getAttribute("order"))-order_reduce).toString())
+        // console.log(order_reduce)
+        // console.log(items[i])
+        // console.log(items[i].getAttribute("order"))
       }
     }
   }
-  console.log(items)
+  // console.log(items)
 })
 
 const update_button = document.getElementById('update_button') 
@@ -279,6 +285,7 @@ priority_button?.addEventListener('click',e=>{
   updateData(url,{"order": 1}).then(data => {
     console.log(data)
   })
+  items[check_item].setAttribute("order","1")
 
   for (var i = 0; i<check_item;i++){
     let url = 'http://localhost:9090/todos/update/' + items[i].id
@@ -286,6 +293,7 @@ priority_button?.addEventListener('click',e=>{
     updateData(url,{"order": (Number(items[i].getAttribute("order"))+1)}).then(data => {
       console.log(data)
     })
+    items[i].setAttribute('order', (Number(items[i].getAttribute("order"))+1).toString())
   }
 })
 
