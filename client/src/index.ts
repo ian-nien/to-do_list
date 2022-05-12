@@ -1,6 +1,6 @@
 import {v4 as uuidV4} from 'uuid'
 
-// // // import {getData, getAllData, postData, deleteData, updateData,getData2} from "./function"
+
 import {getData, getAllData, postData, deleteData, updateData} from "./fuction"
 
 
@@ -12,9 +12,7 @@ type Task = {
   description: string
   check: boolean
   order: number
-  // createdAt: Date
   _id: string
-  // updateAt: Date
 }
 
 interface todoList_interface{
@@ -88,7 +86,7 @@ delete_button?.addEventListener('click',e=>{
   // console.log(items[0].getAttribute("order"))
   // console.log(delete_list)
 
-  console.log(delete_list)
+  // console.log(delete_list)
   // update order
   for(let i = 0;i<items.length;i++){
     var order_reduce = 0
@@ -100,8 +98,7 @@ delete_button?.addEventListener('click',e=>{
           order_reduce = order_reduce + 1
         }
       }
-      // console.log(order_reduce)
-      
+      // console.log(order_reduce)s
       // console.log(Number(items[i].getAttribute("order"))-order_reduce)
 
       // if order need to reduce
@@ -112,9 +109,6 @@ delete_button?.addEventListener('click',e=>{
           console.log(data)
         })
         items[i].setAttribute('order',(Number(items[i].getAttribute("order"))-order_reduce).toString())
-        // console.log(order_reduce)
-        // console.log(items[i])
-        // console.log(items[i].getAttribute("order"))
       }
     }
   }
